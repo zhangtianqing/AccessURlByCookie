@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rzx.ssm.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.rzx.ssm.entity.User">
+    <id column="u_uuid" jdbcType="VARCHAR" property="uUuid" />
+    <id column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="c_uuid" jdbcType="VARCHAR" property="cUuid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    u_uuid, username, password, is_delete, create_date, c_uuid
+  </sql>
+  
+  
+  <select id="userExist" parameterType="com.rzx.ssm.entity.User" resultMap="BaseResultMap">
+  select 
+    <include refid="Base_Column_List" />
+    from user
+    where password = #{password,jdbcType=VARCHAR}
+      and username = #{username,jdbcType=VARCHAR}
+      and is_delete = 1
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.rzx.ssm.entity.UserKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where u_uuid = #{uUuid,jdbcType=VARCHAR}
+      and username = #{username,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.rzx.ssm.entity.UserKey">
+    delete from user
+    where u_uuid = #{uUuid,jdbcType=VARCHAR}
+      and username = #{username,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.rzx.ssm.entity.User">
+  	 <selectKey keyProperty="uUuid" resultType="String" order="BEFORE">
+        select uuid_short()
+    </selectKey>
+    insert into user (u_uuid, username, password, 
+      is_delete, create_date, c_uuid
+      )
+    values (#{uUuid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{cUuid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rzx.ssm.entity.User">
+  
+  <selectKey keyProperty="pkGlobalId" resultType="String" order="BEFORE">  
+        select  replace(uuid(),'-','')   from dual  
+    </selectKey>  
+    
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uUuid != null">
+        u_uuid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="cUuid != null">
+        c_uuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uUuid != null">
+        #{uUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cUuid != null">
+        #{cUuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rzx.ssm.entity.User">
+    update user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="cUuid != null">
+        c_uuid = #{cUuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where u_uuid = #{uUuid,jdbcType=VARCHAR}
+      and username = #{username,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rzx.ssm.entity.User">
+    update user
+    set password = #{password,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      c_uuid = #{cUuid,jdbcType=VARCHAR}
+    where u_uuid = #{uUuid,jdbcType=VARCHAR}
+      and username = #{username,jdbcType=VARCHAR}
+  </update>
+</mapper>
