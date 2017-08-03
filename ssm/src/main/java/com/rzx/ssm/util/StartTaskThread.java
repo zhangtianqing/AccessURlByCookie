@@ -4,23 +4,30 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import com.rzx.ssm.mapper.ClasssMapper;
 
 public class StartTaskThread implements Runnable {
 
 	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 	private int i;
 
-	public StartTaskThread(ThreadPoolTaskExecutor threadPoolTaskExecutor, int i) {
+	ClasssMapper classsMapper;
+	int taskNumber=0;
+	public StartTaskThread(ThreadPoolTaskExecutor threadPoolTaskExecutor, int i,ClasssMapper classsMapper,int taskNumber) {
 		this.threadPoolTaskExecutor = threadPoolTaskExecutor;
 		this.i = i;
+		this.classsMapper=classsMapper;
+		this.taskNumber=taskNumber;
 	}
 
 	public synchronized void run() {
 		String task = "task@ " + i;
 		System.out.println("创建任务并提交到线程池中：" + task);
 		FutureTask<String> futureTask = new FutureTask<String>(
-				new ThreadPoolTask(task));
+				new ThreadPoolTask(task,classsMapper,taskNumber));
 		threadPoolTaskExecutor.execute(futureTask);
 		// 在这里可以做别的任何事情
 		String result = null;

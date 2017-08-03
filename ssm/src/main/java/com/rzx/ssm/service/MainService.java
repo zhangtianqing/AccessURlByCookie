@@ -19,14 +19,14 @@ public class MainService {
 	//多线程使用
 	@Autowired
 	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
-	public void testThreadPoolExecutor(int produceTaskSleepTime,int produceTaskMaxNumber) {
-		for (int i = 1; i <= produceTaskMaxNumber; i++) {
+	public void testThreadPoolExecutor(int produceTaskSleepTime,int produceTaskThreadMaxNumber,int taskNumber) {
+		for (int i = 1; i <= produceTaskThreadMaxNumber; i++) {
 			try {
 				Thread.sleep(produceTaskSleepTime);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			new Thread(new StartTaskThread(threadPoolTaskExecutor, i)).start();
+			new Thread(new StartTaskThread(threadPoolTaskExecutor, i,classsMapper,taskNumber)).start();
 		}
 
 	}

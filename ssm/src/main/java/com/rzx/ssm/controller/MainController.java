@@ -29,10 +29,9 @@ public class MainController {
 	@Autowired
 	public MainService mainService;
 	
-	@RequestMapping(value="/test/{sleep}/{thread}")
-	public String testConnection(@PathVariable int sleep,@PathVariable int thread){
-		mainService.testThreadPoolExecutor(sleep, thread);
-		
+	@RequestMapping(value="/test/{sleep}/{threadCount}/{taskCount}")
+	public String testConnection(@PathVariable int sleep,@PathVariable int threadCount,@PathVariable int taskCount){
+		mainService.testThreadPoolExecutor(sleep, threadCount,taskCount);
 		return "index";
 	}
 	

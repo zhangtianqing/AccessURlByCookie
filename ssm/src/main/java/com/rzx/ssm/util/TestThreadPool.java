@@ -38,7 +38,7 @@ public class TestThreadPool extends AbstractJUnit4SpringContextTests {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			new Thread(new StartTaskThread(threadPoolTaskExecutor, i)).start();
+			new Thread(new StartTaskThread(threadPoolTaskExecutor, i,null, 0)).start();
 		}
 
 	}
