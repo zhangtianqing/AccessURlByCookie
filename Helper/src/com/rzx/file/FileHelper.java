@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
 import java.io.Reader;
 
 public class FileHelper {
@@ -121,7 +120,6 @@ public class FileHelper {
      * 以字符为单位读取文件，常用于读文本，数字等类型的文件
      */
     public static String readFileByChars(String fileName) {
-        File file = new File(fileName);
         Reader reader = null;
         StringBuffer builder=new StringBuffer();
         try {

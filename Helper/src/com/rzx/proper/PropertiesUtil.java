@@ -2,7 +2,6 @@ package com.rzx.proper;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -14,6 +13,13 @@ import java.util.Properties;
 
 public class PropertiesUtil {
 	static Properties prop = new Properties();
+	/**
+	 * 根据路径初始化PropertiesUtil工具 对象类
+	 * 获取所有的键值对Map
+	 * 获取properties对象
+	 * 遍历键/值/键值对输出
+	 * @param proName
+	 */
 	public PropertiesUtil(String proName) {
 		
 		File file=new File(proName);
