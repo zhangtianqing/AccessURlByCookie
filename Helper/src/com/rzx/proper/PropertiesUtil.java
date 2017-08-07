@@ -1,5 +1,8 @@
 package com.rzx.proper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -13,8 +16,10 @@ public class PropertiesUtil {
 	static Properties prop = new Properties();
 	public PropertiesUtil(String proName) {
 		
-		InputStream in = PropertiesUtil.class.getResourceAsStream(proName);
+		File file=new File(proName);
+		InputStream in;
 		try {
+			in = new FileInputStream(file);
 			prop.load(in);
 		} catch (IOException e) {
 			e.printStackTrace();
